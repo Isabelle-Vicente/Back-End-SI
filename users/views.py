@@ -49,10 +49,17 @@ class LoginView(APIView):
         response = Response()
         response.set_cookie(key='jwt', value=access_token, httponly=True)
         response.data = {
-            'access': access_token,
-            'refresh': str(refresh),
-            'role': user.role
-        }
+        'access': access_token,
+        'refresh': str(refresh),
+        'role': user.role,
+        'id': user.id,
+        'email': user.email,
+        'full_name': user.full_name,
+        'is_approved': user.is_approved,
+        'created_at': user.created_at,
+        'updated_at': user.updated_at,
+    }
+
         return response
     
 class ApproveUserView(APIView):
