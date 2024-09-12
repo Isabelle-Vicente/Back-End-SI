@@ -51,6 +51,7 @@ class LoginView(APIView):
         response.data = {
             'access': access_token,
             'refresh': str(refresh),
+            'role': user.role
         }
         return response
     
