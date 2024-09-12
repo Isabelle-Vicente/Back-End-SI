@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.exceptions import AuthenticationFailed
-
+from jwt.exceptions import InvalidSignatureError 
 from users.permissions import IsAdmin
 from .models import User
 from .serializers import UserSerializer
@@ -26,7 +26,7 @@ class RegisterView(APIView):
         return Response(serializer.data)
 
 class LoginView(APIView):
-    permission_classes = [AllowAny]  # Permitir acesso sem autenticação
+    permission_classes = [AllowAny]
 
     def post(self, request):
         email = request.data.get('email')
@@ -51,13 +51,6 @@ class LoginView(APIView):
         response.data = {
             'access': access_token,
             'refresh': str(refresh),
-            'id': user.id,
-            'email': user.email, 
-            'fullName': user.full_name,
-            'is_approved': user.is_approved,
-            'role': user.role,
-            'createdAt': user.created_at,
-            'updatedAt': user.updated_at
         }
         return response
     
