@@ -37,15 +37,14 @@ class NoticeViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def approve_notice(self, request, pk=None):
+        print("REQUEST: ", request.data['is_approved'])
         notice = get_object_or_404(Notice, pk=pk)
 
-        if not request.user.is_admin:
-            return Response({'error': 'Apenas administradores podem aprovar avisos.'}, status=status.HTTP_403_FORBIDDEN)
-
-        notice.is_approved = True
+        notice.is_approved = request.data['is_approved']
         notice.responsible = request.user
         notice.save()
         return Response({'status': 'Aviso aprovado com sucesso!'})
+  
 
     def user_notices(self, request):
         notices = Notice.objects.filter(id_user=request.user)
