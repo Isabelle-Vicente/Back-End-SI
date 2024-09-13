@@ -20,6 +20,8 @@ class Notice(models.Model):
     local = models.CharField(max_length=100)
     is_public = models.BooleanField(default=False)  # Controla se todos podem ver
     is_approved = models.BooleanField(default=False)  # Apenas admin pode alterar
+    user_name = models.CharField(max_length=150, blank=True)  # Novo campo para armazenar o nome do usuário
+
 
     class Meta:
         db_table = 'posts'
@@ -27,3 +29,8 @@ class Notice(models.Model):
         
     def __str__(self):
         return self.subject
+
+    def save(self, *args, **kwargs):
+        if self.id_user:
+            self.user_name = self.id_user.username  # Supondo que o campo do nome de usuário no modelo User seja chamado de 'username'
+        super().save(*args, **kwargs)
