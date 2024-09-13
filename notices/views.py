@@ -42,3 +42,9 @@ class NoticeViewSet(viewsets.ModelViewSet):
         notice.responsible = request.user  # O admin se torna o responsável
         notice.save()
         return Response({'status': 'Aviso aprovado com sucesso!'})
+
+    def user_notices(self, request):
+        # Filtra avisos pertencentes ao usuário autenticado
+        notices = Notice.objects.filter(id_user=request.user)
+        serializer = NoticeSerializer(notices, many=True)
+        return Response(serializer.data)
