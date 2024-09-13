@@ -9,6 +9,6 @@ urlpatterns = [
     path('logout', LogoutView.as_view(), name='logout'),
     path('approve-user/<uuid:pk>/', ApproveUserView.as_view(), name='approve_user'),
     path('users', UserViewSet.as_view({'get': 'list'}), name='user_list'),
-    path('users/<uuid:pk>/', UserViewSet.as_view({'get': 'retrieve', 'patch': 'update', 'delete': 'destroy'}), name='user_detail'),
+    path('users/<uuid:pk>/', UserViewSet.as_view({'get': 'retrieve', 'patch': 'update', "delete": "destroy"}), name='user_detail'),
 ]
 

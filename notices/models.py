@@ -1,10 +1,10 @@
 from django.db import models
 from users.models import User
 from django.utils import timezone
+import uuid
 
 class Notice(models.Model):
-    id = models.AutoField(primary_key=True)
-    sharing = models.BooleanField(default=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     start_date = models.DateField()
     end_date = models.DateField()
     start_time = models.TimeField()

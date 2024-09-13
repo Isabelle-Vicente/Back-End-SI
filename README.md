@@ -29,127 +29,128 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - Django (versão 5.1)
 - Django REST Framework (versão 3.15.2)
 - Django Simple JWT para autenticação baseada em tokens
-- Django Cors Headers para lidar com Cors do navegadores 
+- Django Cors Headers para lidar com Cors do navegadores
 - PostgreSQL
 
 ## 🚀 Rotas
-<br><table>
-    <thead>
-        <tr>
-            <th align="center">
-                <img width="180" height="1"> 
-                <p>
-                    <small>Nome</small>
-                </p>
-            </th>
-            <th align="center">
-                <img width="180" height="1"> 
-                <p> 
-                    <small>
-                        URL
-                    </small>
-                </p>
-            </th>
-            <th align="center">
-                <img width="180" height="1">
-                <p align="center"> 
-                    <small>
-                      Método                    
-                    </small>
-                </p>
-            </th>
-            <th align="center">
-                <img width="180" height="1">
-                <p align="center"> 
-                    <small>
-                    Permissão
-                    </small>
-                </p>
-            </th>
-             <th align="center">
-                <img width="180" height="1">
-                <p align="center"> 
-                    <small>
-                    Descrição
-                    </small>
-                </p>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td align="center">Registrar Usuário</td>
-            <td align="center">/api/register/</td>
-            <td align="center">POST</td>
-            <td align="center">Todos</td>
-            <td>Cria um novo usuário na aplicação, porém o usuário não será aprovado até que o administrador faça isso.</td>
-        </tr>
-        <tr>
-            <td  align="center">Login</td>
-            <td align="center">/api/login/</td>
-            <td align="center">POST</td>
-            <td align="center">Todos</td>
-            <td>Faz login de um usuário e retorna os tokens JWT.</td>
-        </tr>
-        <tr>
-            <td align="center">Listar Usuários</td>
-            <td align="center">/api/users/</td>
-            <td align="center">GET</td>
-            <td align="center">Somente administradores</td>
-            <td>Retorna a lista de todos os usuários registrados.</td>
-        </tr>
-        <tr>
-            <td align="center">Atualizar Usuário</td>
-            <td align="center">/api/users/{id}/</td>
-            <td align="center">PUT ou PATCH</td>
-            <td align="center">Administrador ou próprio usuário</td>
-            <td>Atualiza os detalhes de um usuário.</td>
-        </tr>
-        <tr>
-            <td align="center">Aprovar Usuário</td>
-            <td align="center">/api/users/{id}/approve/</td>
-            <td align="center">PATCH</td>
-            <td align="center">Administrador</td>
-            <td>Aprova ou desaprova um usuário para ter acesso sistema.</td>
-        </tr>
-        <tr>
-           <td align="center">Listar Avisos</td>
-            <td align="center">/api/notices/</td>
-            <td align="center">GET</td>
-            <td align="center">Qualquer usuário autenticado</td>
-            <td>Retorna a lista de todos os avisos.</td>
-        </tr>
-        <tr>
-            <td align="center">Criar Aviso</td>
-            <td align="center">/api/notices/</td>
-            <td align="center"> POST</td>
-            <td align="center"> Qualquer usuário autenticado</td>
-            <td>Cria um novo aviso. O aviso precisa ser aprovado por um administrador antes de ser exibido.</td>
-        </tr>
-        <tr>
-            <td align="center">Editar Aviso</td>
-            <td align="center">/api/notices/{id}/</td>
-            <td align="center"> PUT ou PATCH</td>
-            <td align="center">  Administrador ou criador do aviso (antes da aprovação)</td>
-            <td>Atualiza os detalhes de um aviso.</td>
-        </tr>
-          <tr>
-            <td align="center">Aprovar Aviso</td>
-            <td align="center">/api/notices/{id}/approve/</td>
-            <td align="center"> PATCH</td>
-            <td align="center">Somente administradores</td>
-            <td>Aprova um aviso, tornando-o visível para todos os usuários.</td>
-        </tr>
-          <tr>
-            <td align="center">Aprovar Aviso</td>
-            <td align="center">/api/notices/{id}/</td>
-            <td align="center">DELETE</td>
-            <td align="center">Administrador ou criador do aviso</td>
-            <td>Remove um aviso.</td>
-        </tr>
-    </tbody>
-</table></p>
 
+<br><table>
+<thead>
+<tr>
+<th align="center">
+<img width="180" height="1">
+<p>
+<small>Nome</small>
+</p>
+</th>
+<th align="center">
+<img width="180" height="1">
+<p>
+<small>
+URL
+</small>
+</p>
+</th>
+<th align="center">
+<img width="180" height="1">
+<p align="center">
+<small>
+Método  
+ </small>
+</p>
+</th>
+<th align="center">
+<img width="180" height="1">
+<p align="center">
+<small>
+Permissão
+</small>
+</p>
+</th>
+<th align="center">
+<img width="180" height="1">
+<p align="center">
+<small>
+Descrição
+</small>
+</p>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">Registrar Usuário</td>
+<td align="center">/api/register/</td>
+<td align="center">POST</td>
+<td align="center">Todos</td>
+<td>Cria um novo usuário na aplicação, porém o usuário não será aprovado até que o administrador faça isso.</td>
+</tr>
+<tr>
+<td  align="center">Login</td>
+<td align="center">/api/login/</td>
+<td align="center">POST</td>
+<td align="center">Todos</td>
+<td>Faz login de um usuário e retorna os tokens JWT.</td>
+</tr>
+<tr>
+<td align="center">Listar Usuários</td>
+<td align="center">/api/users/</td>
+<td align="center">GET</td>
+<td align="center">Somente administradores</td>
+<td>Retorna a lista de todos os usuários registrados.</td>
+</tr>
+<tr>
+<td align="center">Atualizar Usuário</td>
+<td align="center">/api/users/{id}/</td>
+<td align="center">PUT ou PATCH</td>
+<td align="center">Administrador ou próprio usuário</td>
+<td>Atualiza os detalhes de um usuário.</td>
+</tr>
+<tr>
+<td align="center">Aprovar Usuário</td>
+<td align="center">/api/users/{id}/approve/</td>
+<td align="center">PATCH</td>
+<td align="center">Administrador</td>
+<td>Aprova ou desaprova um usuário para ter acesso sistema.</td>
+</tr>
+<tr>
+<td align="center">Listar Avisos</td>
+<td align="center">/api/notices/</td>
+<td align="center">GET</td>
+<td align="center">Qualquer usuário autenticado</td>
+<td>Retorna a lista de todos os avisos.</td>
+</tr>
+<tr>
+<td align="center">Criar Aviso</td>
+<td align="center">/api/notices/</td>
+<td align="center"> POST</td>
+<td align="center"> Qualquer usuário autenticado</td>
+<td>Cria um novo aviso. O aviso precisa ser aprovado por um administrador antes de ser exibido.</td>
+</tr>
+<tr>
+<td align="center">Editar Aviso</td>
+<td align="center">/api/notices/{id}/</td>
+<td align="center"> PUT ou PATCH</td>
+<td align="center"> Administrador ou criador do aviso (antes da aprovação)</td>
+<td>Atualiza os detalhes de um aviso.</td>
+</tr>
+<tr>
+<td align="center">Aprovar Aviso</td>
+<td align="center">/api/notices/{id}/approve/</td>
+<td align="center"> PATCH</td>
+<td align="center">Somente administradores</td>
+<td>Aprova um aviso, tornando-o visível para todos os usuários.</td>
+</tr>
+<tr>
+<td align="center">Aprovar Aviso</td>
+<td align="center">/api/notices/{id}/</td>
+<td align="center">DELETE</td>
+<td align="center">Administrador ou criador do aviso</td>
+<td>Remove um aviso.</td>
+</tr>
+</tbody>
+
+</table></p>
 
 ## 🔖 Front-end
 
@@ -161,4 +162,4 @@ Esse projeto está sob a licença MIT.
 
 ---
 
-Feito com ♥ 
+Feito com ♥

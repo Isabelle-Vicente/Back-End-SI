@@ -26,8 +26,6 @@ SECRET_KEY = 'django-insecure-!fn&oq6^h&4j-itj%p$z3=jtgvj7u-f8hl)=idr(43(5jd#w)c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -69,11 +67,10 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-
+    "http://0.0.0.0:3000",
 ]
 
 CORS_ALLOW_CREDENTIALS = True  # Permite envio de cookies e credenciais
-
 
 ROOT_URLCONF = 'sistema_populacao.urls'
 
@@ -183,4 +180,4 @@ CORS_ALLOW_HEADERS = [
     # outros headers se necessário
 ]
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
