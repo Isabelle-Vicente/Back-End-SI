@@ -32,5 +32,5 @@ class Notice(models.Model):
 
     def save(self, *args, **kwargs):
         if self.id_user:
-            self.user_name = self.id_user.username  # Supondo que o campo do nome de usuário no modelo User seja chamado de 'username'
+            self.user_name = self.id_user.full_name 
         super().save(*args, **kwargs)
