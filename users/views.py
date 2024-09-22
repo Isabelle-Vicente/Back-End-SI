@@ -107,10 +107,23 @@ class LogoutView(APIView):
         return response
 
 class UserViewSet(viewsets.ViewSet):
-    permission_classes = [IsAdmin]  # Use a permissão personalizada
+    permission_classes = [IsAdmin]  # Apenas administradores podem acessar essas rotas
 
+    # Lista de todos os usuários
     def list(self, request):
         queryset = User.objects.all()
+        serializer = UserSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    # Lista apenas usuários aprovados
+    def list_approved(self, request):
+        queryset = User.objects.filter(is_approved=True)
+        serializer = UserSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    # Lista apenas usuários pendentes (não aprovados)
+    def list_unapproved(self, request):
+        queryset = User.objects.filter(is_approved=False)
         serializer = UserSerializer(queryset, many=True)
         return Response(serializer.data)
 
