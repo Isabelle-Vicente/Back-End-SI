@@ -75,7 +75,7 @@ class ApproveUserView(APIView):
             user.save()
             return Response({'status': 'User approval status updated'})
         
-        return Response({'error': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'detail': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
 
 class UserView(APIView):
     permission_classes = [IsAuthenticated]

@@ -26,7 +26,7 @@ class NoticeViewSet(viewsets.ModelViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         if notice.is_approved and not request.user.is_admin:
-            return Response({'error': 'Apenas o administrador pode editar um aviso aprovado.'}, status=status.HTTP_403_FORBIDDEN)
+            return Response({'detail': 'Apenas o administrador pode editar um aviso aprovado.'}, status=status.HTTP_403_FORBIDDEN)
 
         return super().update(request, *args, **kwargs)
 
