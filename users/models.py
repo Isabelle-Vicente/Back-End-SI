@@ -29,7 +29,7 @@ class User(AbstractBaseUser):
     email = models.EmailField(max_length=100, unique=True)
     full_name = models.CharField(max_length=100)
     role = models.CharField(
-        max_length=20,
+        max_length=10,
         choices=ROLE_CHOICES,
         default=EDITOR,
     )
