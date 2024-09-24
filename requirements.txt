@@ -20,3 +20,5 @@ setuptools==75.1.0
 sqlparse==0.5.1
 tzdata==2024.1
 uritemplate==4.1.1
+gunicorn
+
