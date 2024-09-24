@@ -8,12 +8,10 @@ from rest_framework.exceptions import AuthenticationFailed
 from users.permissions import IsAdmin
 from .models import User
 from .serializers import UserSerializer
-import jwt
-import uuid
-from rest_framework.permissions import IsAdminUser
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.permissions import AllowAny
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 
 class RegisterView(APIView):
     def post(self, request):
@@ -46,16 +44,16 @@ class LoginView(APIView):
         response = Response()
         response.set_cookie(key='jwt', value=access_token, httponly=True)
         response.data = {
-        'access': access_token,
-        'refresh': str(refresh),
-        'role': user.role,
-        'id': user.id,
-        'email': user.email,
-        'full_name': user.full_name,
-        'is_approved': user.is_approved,
-        'created_at': user.created_at,
-        'updated_at': user.updated_at,
-    }
+            'access': access_token,
+            'refresh': str(refresh),
+            'role': user.role,
+            'id': user.id,
+            'email': user.email,
+            'full_name': user.full_name,
+            'is_approved': user.is_approved,
+            'created_at': user.created_at,
+            'updated_at': user.updated_at,
+        }
 
         return response
     
@@ -81,19 +79,14 @@ class UserView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        token = request.COOKIES.get('jwt')
-
-        if not token:
-            raise AuthenticationFailed('Não autenticado!')
-
+        # Utiliza JWTAuthentication para validar e obter o usuário a partir do token
+        jwt_auth = JWTAuthentication()
         try:
-            payload = jwt.decode(token, 'secret', algorithms=['HS256'])
-            user_id = payload['id']
-            user_id = uuid.UUID(user_id)
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('Não autenticado!')
+            validated_token = jwt_auth.get_validated_token(request.COOKIES.get('jwt'))
+            user = jwt_auth.get_user(validated_token)
+        except TokenError as e:
+            raise AuthenticationFailed('Token inválido ou expirado')
 
-        user = User.objects.filter(id=user_id).first()
         serializer = UserSerializer(user)
         return Response(serializer.data)
 
