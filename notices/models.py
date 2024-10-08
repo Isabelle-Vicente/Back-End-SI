@@ -22,15 +22,18 @@ class Notice(models.Model):
     is_public = models.BooleanField(default=False)
     is_approved = models.BooleanField(default=False)
     user_name = models.CharField(max_length=150, blank=True)
-    image_url = models.URLField(max_length=500, blank=True, null=True)
+    image_url = models.URLField(max_length=500, blank=True, null=True) 
 
     def save(self, *args, **kwargs):
         image_file = kwargs.pop('image_file', None)
+
         if image_file:
-            filename = f'notices/{self.id}/{image_file.name}'
-            self.image_url = upload_image_to_azure(image_file, filename)
+            filename = f'{image_file.name}'  
+            self.image_url = upload_image_to_azure(image_file, filename) 
+
         if self.id_user:
             self.user_name = self.id_user.full_name
+            
         super().save(*args, **kwargs)
 
     class Meta:
