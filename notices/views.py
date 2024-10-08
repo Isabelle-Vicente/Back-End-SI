@@ -13,22 +13,17 @@ class NoticeViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        serializer.save(id_user=self.request.user, responsible=self.request.user)
+        image_file = self.request.FILES.get('image_file')
+        serializer.save(id_user=self.request.user, responsible=self.request.user, image_file=image_file)
 
     def update(self, request, *args, **kwargs):
-        notice = self.get_object()
-
-        if not notice.is_approved and (request.user == notice.id_user or request.user.is_admin):
-            serializer = NoticeSerializer(notice, data=request.data, partial=True)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        if notice.is_approved and not request.user.is_admin:
-            return Response({'detail': 'Apenas o administrador pode editar um aviso aprovado.'}, status=status.HTTP_403_FORBIDDEN)
-
-        return super().update(request, *args, **kwargs)
+        image_file = request.FILES.get('image_file')
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer, image_file=image_file)
+        return Response(serializer.data)
 
     def destroy(self, request, pk=None):
         queryset = Notice.objects.all()
@@ -37,14 +32,11 @@ class NoticeViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def approve_notice(self, request, pk=None):
-        print("REQUEST: ", request.data['is_approved'])
         notice = get_object_or_404(Notice, pk=pk)
-
         notice.is_approved = request.data['is_approved']
         notice.responsible = request.user
         notice.save()
         return Response({'status': 'Aviso aprovado com sucesso!'})
-  
 
     def user_notices(self, request):
         notices = Notice.objects.filter(id_user=request.user)

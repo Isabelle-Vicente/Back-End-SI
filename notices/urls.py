@@ -6,8 +6,8 @@ router = DefaultRouter()
 router.register(r'notices', NoticeViewSet, basename='notice')
 
 urlpatterns = [
-    path('', include(router.urls)),  # Inclui as rotas padrão do DRF para Notice
+    path('', include(router.urls)),
     path('notices/<uuid:pk>/approve/', NoticeViewSet.as_view({'patch': 'approve_notice'}), name='approve-notice'),
-    path('notices/user/', NoticeViewSet.as_view({'get': 'user_notices'}), name='user-notices'),  # Rota personalizada
-    path('notices/<uuid:pk>/', NoticeViewSet.as_view({'delete': 'destroy'}), name='destroy'),  # Rota personalizada
+    path('notices/user/', NoticeViewSet.as_view({'get': 'user_notices'}), name='user-notices'),
+    path('notices/<uuid:pk>/', NoticeViewSet.as_view({'delete': 'destroy'}), name='destroy'),
 ]

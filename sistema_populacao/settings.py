@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'users',
     'notices',
+    'storages',
 ]
 
 REST_FRAMEWORK = {
@@ -136,5 +137,4 @@ CORS_ALLOW_HEADERS = [
     'authorization',
     'content-type',
     'x-requested-with',
-]
-
+] 
