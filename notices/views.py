@@ -2,7 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
-from users.permissions import IsAdmin
+from notices.utils import upload_image_to_azure
 from .models import Notice
 from .serializers import NoticeSerializer
 from rest_framework.decorators import action
@@ -16,13 +16,21 @@ class NoticeViewSet(viewsets.ModelViewSet):
         image_file = self.request.FILES.get('image_file')
         serializer.save(id_user=self.request.user, responsible=self.request.user, image_file=image_file)
 
+    def perform_update(self, serializer, image_file=None):
+        if image_file:
+            filename = f'{image_file.name}'
+            serializer.instance.image_url = upload_image_to_azure(image_file, filename)
+        serializer.save()
+
     def update(self, request, *args, **kwargs):
-        image_file = request.FILES.get('image_file')
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
+
+        image_file = request.FILES.get('image_file')
         self.perform_update(serializer, image_file=image_file)
+        
         return Response(serializer.data)
 
     def destroy(self, request, pk=None):
