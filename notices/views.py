@@ -6,34 +6,50 @@ from notices.utils import upload_image_to_azure
 from .models import Notice
 from .serializers import NoticeSerializer
 from rest_framework.decorators import action
+from django.utils import timezone
 
 class NoticeViewSet(viewsets.ModelViewSet):
     queryset = Notice.objects.all()
     serializer_class = NoticeSerializer
     permission_classes = [IsAuthenticated]
 
-    def perform_create(self, serializer):
-        image_file = self.request.FILES.get('image_file')
-        serializer.save(id_user=self.request.user, responsible=self.request.user, image_file=image_file)
-
-    def perform_update(self, serializer, image_file=None):
-        if image_file:
-            filename = f'{image_file.name}'
-            serializer.instance.image_url = upload_image_to_azure(image_file, filename)
-        serializer.save()
-
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
-        instance = self.get_object()
+        notice_id = kwargs.get('pk')  # Assuming 'pk' is the parameter name for the notice ID
 
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
+        try:
+            instance = self.get_queryset().get(id=notice_id)
 
-        image_file = request.FILES.get('image_file')
+            serializer = self.get_serializer(instance, data=request.data, partial=partial)
+            serializer.is_valid(raise_exception=True)
 
-        self.perform_update(serializer, image_file=image_file)
-        
-        return Response(serializer.data)
+            image_file = request.FILES.get('image_file')
+
+            if image_file:
+                filename = f'{image_file.name}'
+                serializer.instance.image_url = upload_image_to_azure(image_file, filename)
+
+            # Update instance fields with request data
+            instance.start_date = request.data.get('start_date')
+            instance.end_date = request.data.get('end_date')
+            instance.start_time = request.data.get('start_time')
+            instance.end_time = request.data.get('end_time')
+            instance.subject = request.data.get('subject')
+            instance.category = request.data.get('category')
+            instance.subcategory = request.data.get('subcategory')
+            instance.content = request.data.get('content')
+            instance.id_user = request.user
+            instance.responsible = request.user
+            instance.local = request.data.get('local')
+            instance.is_approved = True if request.data.get('is_approved') == 'true' else False
+            instance.updated_at = timezone.now()
+            instance.save()
+
+            return Response(serializer.data)
+        except Notice.DoesNotExist:
+            return Response({'error': 'Notice not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def destroy(self, request, pk=None):
         queryset = Notice.objects.all()

@@ -10,4 +10,5 @@ urlpatterns = [
     path('notices/<uuid:pk>/approve/', NoticeViewSet.as_view({'patch': 'approve_notice'}), name='approve-notice'),
     path('notices/user/', NoticeViewSet.as_view({'get': 'user_notices'}), name='user-notices'),
     path('notices/<uuid:pk>/', NoticeViewSet.as_view({'delete': 'destroy'}), name='destroy'),
+    path('notices/<uuid:pk>/', NoticeViewSet.as_view({'put': 'update'}), name='update'),
 ]
