@@ -7,8 +7,8 @@ class NoticeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notice
         fields = ['id', 'start_date', 'end_date', 'start_time', 'end_time', 'subject', 
-                  'category', 'subcategory', 'content', 'id_user', 'responsible',
-                  'local', 'is_public', 'is_approved', 'image_url', 'image_file']
+                  'category', 'subcategory', 'content', 'id_user', 'responsible' , 'user_name',
+                  'local', 'is_approved', 'image_url', 'image_file']
 
     def create(self, validated_data):
         image_file = validated_data.pop('image_file', None)

@@ -139,3 +139,4 @@ CORS_ALLOW_HEADERS = [
     'content-type',
     'x-requested-with',
 ]
+
