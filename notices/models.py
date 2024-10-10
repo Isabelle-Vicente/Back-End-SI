@@ -19,11 +19,14 @@ class Notice(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
     local = models.CharField(max_length=100)
-    is_public = models.BooleanField(default=False)
     is_approved = models.BooleanField(default=False)
     user_name = models.CharField(max_length=150, blank=True)
     image_url = models.URLField(max_length=500, blank=True, null=True) 
-
+    share_morning = models.BooleanField(default=False)
+    share_afternoon = models.BooleanField(default=False)
+    share_evening = models.BooleanField(default=False)
+    interest_area = models.CharField(max_length=100)
+    
     def save(self, *args, **kwargs):
         image_file = kwargs.pop('image_file', None)
 
