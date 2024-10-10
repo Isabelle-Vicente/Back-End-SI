@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
@@ -7,12 +8,21 @@ from .models import Notice
 from .serializers import NoticeSerializer
 from rest_framework.decorators import action
 from django.utils import timezone
+from .serializers import NoticeSerializer
+from .filters import NoticeFilter
 
 class NoticeViewSet(viewsets.ModelViewSet):
     queryset = Notice.objects.all()
     serializer_class = NoticeSerializer
     permission_classes = [IsAuthenticated]
+    serializer_class = NoticeSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = NoticeFilter
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset
+    
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
         notice_id = kwargs.get('pk')  # Assuming 'pk' is the parameter name for the notice ID

@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'users',
     'notices',
     'storages',
+    'django_filters',
 ]
 
 REST_FRAMEWORK = {
