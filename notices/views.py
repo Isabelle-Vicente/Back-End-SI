@@ -52,6 +52,12 @@ class NoticeViewSet(viewsets.ModelViewSet):
             instance.responsible = request.user
             instance.local = request.data.get('local')
             instance.is_approved = True if request.data.get('is_approved') == 'true' else False
+
+            instance.share_morning = True if request.data.get('share_morning') == 'true' else False
+            instance.share_afternoon = True if request.data.get('share_afternoon') == 'true' else False
+            instance.share_evening = True if request.data.get('share_evening') == 'true' else False
+            instance.interest_area = request.data.get('interest_area')
+
             instance.updated_at = timezone.now()
             instance.save()
 
