@@ -140,3 +140,14 @@ CORS_ALLOW_HEADERS = [
     'x-requested-with',
 ]
 
+AZURE_ACCOUNT_NAME = 'backendsistaticfiles'  
+AZURE_ACCOUNT_KEY = 'BKC//wsSBSmDePTEJV6muqILVDehQv3zeNSZWq5o9//NXN1MPCZXNfYLwi/WXxsv/TFbElhzoEqQ+AStXJr8zA=='  
+AZURE_CONTAINER_NAME = 'notices'  
+AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
+AZURE_SECURE_URLS = True  
+
+DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
+AZURE_CONTAINER = 'notices'
+AZURE_ACCOUNT_NAME = 'backendsistaticfiles' 
+AZURE_ACCOUNT_KEY = 'BKC//wsSBSmDePTEJV6muqILVDehQv3zeNSZWq5o9//NXN1MPCZXNfYLwi/WXxsv/TFbElhzoEqQ+AStXJr8zA=='  
+AZURE_SSL = True
